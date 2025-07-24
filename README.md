@@ -28,7 +28,7 @@ export VAULT_LICENSE=INSERT_LICENSE_HERE
 If you do not have an enterprise license, you can request a trial license from the following link:
 https://www.hashicorp.com/products/vault/trial
 
-Alternatively, you can use the Vault BSL container image by changing the [docker-compose.yml](docker-compose.yml) file to use the `hashicorp/vault-enterprise:1.19` image.
+Alternatively, you can use the Vault BSL container image by changing the [docker-compose.yml](docker-compose.yml) file to use the `hashicorp/vault` image.
 
 ## Usage
 [Taskfile.yml](Taskfile.yml) contains automation commands to manage the stack.
