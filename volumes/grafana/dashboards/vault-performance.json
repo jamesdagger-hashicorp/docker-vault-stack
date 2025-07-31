@@ -16,7 +16,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 22,
+  "id": 17,
   "links": [],
   "panels": [
     {
@@ -32,6 +32,8 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
+            "axisSoftMax": 100,
+            "axisSoftMin": 0,
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
@@ -972,5 +974,5 @@
   "timezone": "",
   "title": "Vault Performance",
   "uid": "c25e4eae-0675-465b-90b3-057cd1ac9c07",
-  "version": 8
+  "version": 1
 }
