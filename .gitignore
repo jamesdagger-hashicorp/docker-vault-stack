@@ -1,6 +1,7 @@
 **/.env
 .idea/
 vault-init.json
+**/wip
 
 **/*.bak
 **/.terraform

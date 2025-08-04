@@ -22,6 +22,7 @@ tasks:
         echo "Grafana: http://localhost:3000"
         echo "Prometheus: http://localhost:9090"
         echo "Vault: http://localhost:8200"
+        echo "Node Exporter: http://localhost:9100/metrics"
     silent: true
 
   vault-up:

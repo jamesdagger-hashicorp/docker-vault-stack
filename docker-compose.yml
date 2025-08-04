@@ -37,7 +37,7 @@ services:
     volumes:
       - ./volumes/grafana/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
       - ./volumes/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
-      - ./volumes/grafana/vault_dashboard.json:/var/lib/grafana/dashboards/vault_dashboard.json:ro
+      - ./volumes/grafana/dashboards:/var/lib/grafana/dashboards:ro
       - grafana-data:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -87,6 +87,21 @@ services:
     command: -config.file=/etc/promtail/promtail.yml
     depends_on:
       - loki
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_node-exporter
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
 
 networks:
   default:
