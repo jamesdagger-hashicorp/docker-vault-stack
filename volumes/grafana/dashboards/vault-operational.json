@@ -1,0 +1,1310 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "prometheus",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "The most critical metrics that could indicate an immediate threat to Vault stability are included here. Alerts should be created for these.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 2,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 0,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red"
+              },
+              {
+                "color": "dark-yellow",
+                "value": 30
+              },
+              {
+                "color": "dark-green",
+                "value": 60
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "((vault_core_license_expiration_time_epoch{cluster=~\"$cluster\"} - time()) / 86400)",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Days until license expires",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "dark-red",
+                  "index": 1,
+                  "text": "Sealed"
+                },
+                "1": {
+                  "color": "dark-green",
+                  "index": 0,
+                  "text": "Unsealed"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 0,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 5,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "vault_core_unsealed{cluster=~\"$cluster\",cluster!=\"\"}",
+          "format": "table",
+          "instant": true,
+          "legendFormat": "Cluster = {{cluster}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Seal status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "Displays whether Autopilot deems the node indicated as healthy. Unhealthy status indicates a possible communication issue or other underlying problem with the target node.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "dark-red",
+                  "index": 1,
+                  "text": "Unhealthy"
+                },
+                "1": {
+                  "color": "dark-green",
+                  "index": 0,
+                  "text": "Healthy"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green"
+              },
+              {
+                "color": "dark-red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "Node Id = vault-0"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 10,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "displayMode": "gradient",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "vault_autopilot_node_healthy{cluster=~\"$cluster\"}",
+          "legendFormat": "Node Id = {{node_id}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Autopilot node status",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "The number of errors encountered while trying to save autosnapshots",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "None",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green"
+              },
+              {
+                "color": "dark-red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 17,
+        "y": 0
+      },
+      "id": 9,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "vault_autosnapshots_save_errors{cluster=~\"$cluster\"}",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Autosnapshot save errors",
+      "type": "gauge"
+    },
+    {
+      "datasource": "prometheus",
+      "description": "Memory available to the Vault process.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 7
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "vault_runtime_alloc_bytes{cluster=~\"$cluster\"}",
+          "legendFormat": "Allocated",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "expr": "vault_runtime_sys_bytes{cluster=~\"$cluster\"}",
+          "legendFormat": "System",
+          "refId": "B"
+        }
+      ],
+      "title": "Vault Memory Utilisation",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "prometheus",
+      "description": "A good system load indicator. We recommend monitoring goroutines to establish an accurate baseline and thresholds for alerting.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 7
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "vault_runtime_num_goroutines{cluster=~\"$cluster\"}",
+          "legendFormat": "Goroutines",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Goroutines",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "GC pauses stop all vault activity. A high rate of pauses affects Vault performance. This shows a rate of GC pauses over a 5 minute period. Use a threshold of 10s for alerts.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "dashed"
+            }
+          },
+          "mappings": [],
+          "max": 12.5,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green"
+              },
+              {
+                "color": "dark-yellow",
+                "value": 10
+              },
+              {
+                "color": "dark-red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 0,
+        "y": 15
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(rate(vault_runtime_total_gc_pause_ns[5m]) * 300) / 1e9",
+          "legendFormat": "Rate",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Garbage collector pause rate",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "Amount of time taken to persist a Vault write-ahead logs (WAL) from the persist queue to the storage backend. An initial threshold of 1000ms is recommended. Excessive latency could indicate storage issues.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 1500,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 1000
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 7,
+        "y": 15
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "vault_wal_persistWALs{cluster=~\"$cluster\",quantile=\"0.99\"}",
+          "legendFormat": "WAL Persist - P99",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Write-Ahead-Logs > Persist",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "Amount of time taken to flush a Vault write-ahead logs (WAL) to the persist queue. An initial threshold of 500ms is recommended. Excessive latency could indicate storage issues.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "dashed"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 750,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green"
+              },
+              {
+                "color": "dark-red",
+                "value": 500
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 15,
+        "y": 15
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "vault_wal_flushReady{cluster=~\"$cluster\",quantile=\"0.99\"}",
+          "legendFormat": "WAL FlushReady - P99",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Write-Ahead-Logs > Ready to Flush",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "This is the time required to commit a new entry to the raft log. Exceptions could indicate a performance issue on the leader node.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green"
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 23
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "vault_raft_commitTime{cluster=~\"$cluster\",quantile=\"0.99\"}",
+          "legendFormat": "P99",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Raft Commit Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "An increase in this counter indicates that all the configured audit devices failed to log a request/response. If Vault cannot properly audit a request/response, the original request will fail.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 23
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "rate(vault_audit_log_request_failure{cluster=~\"$cluster\"}[5m])",
+          "legendFormat": "Request failures",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "expr": "rate(vault_audit_log_response_failure{cluster=~\"$cluster\"}[5m])",
+          "hide": false,
+          "legendFormat": "Response failures",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Audit log failures",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "Tracks the rate of leadership changes. A high leadership turnover might indicate cluster instability or communication issues.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "No leadership changes",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green"
+              },
+              {
+                "color": "dark-yellow",
+                "value": 3
+              },
+              {
+                "color": "dark-red",
+                "value": 5
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 7,
+        "x": 0,
+        "y": 31
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "rate(vault_core_leadership_lost_count{cluster=~\"$cluster\"}[1h])",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Rate of leadership changes (1h)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "Tracks the rate of leadership setup failures. An increase in the rate might indicate issues with acquisition of the leadership election lock, or a wider outage impacting the cluster.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "No leadership setup failures",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green"
+              },
+              {
+                "color": "dark-yellow",
+                "value": 3
+              },
+              {
+                "color": "dark-red",
+                "value": 5
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 7,
+        "y": 31
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "rate(vault_core_leadership_setup_failed_count{cluster=~\"$cluster\"}[1h])",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Rate of leadership setup failures (1h)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "description": "The amount of time since the raft leader last contacted follower nodes whilst performing a leader lease check.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "min": 0,
+          "noValue": "No data",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green"
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 9,
+        "x": 15,
+        "y": 31
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P1809F7CD0C75ACF3"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "vault_raft_leader_lastcontact{cluster=~\"$cluster\",quantile=\"0.99\"}",
+          "format": "time_series",
+          "instant": false,
+          "legendFormat": "P99",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Raft leader last contact",
+      "type": "timeseries"
+    }
+  ],
+  "preload": false,
+  "refresh": "10s",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "prometheus",
+          "value": "P1809F7CD0C75ACF3"
+        },
+        "includeAll": false,
+        "label": "Datasource",
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "includeAll": true,
+        "label": "Cluster",
+        "multi": true,
+        "name": "cluster",
+        "options": [],
+        "query": "label_values(vault_core_unsealed, cluster)",
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Vault Operational",
+  "uid": "1f8606df-be1d-44ba-8eef-d1883c58af7c",
+  "version": 14
+}
